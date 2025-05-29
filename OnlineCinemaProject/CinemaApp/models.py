@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import User
 
 
 class Film(models.Model):
@@ -16,13 +17,13 @@ class Film(models.Model):
 
 class Review(models.Model):
     movie = models.ForeignKey(
-        #Movie,
+        Film,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name="Фильм"
     )
     user = models.ForeignKey(
-        #User,<
+        User,
         on_delete=models.CASCADE,
         related_name='reviews',
         verbose_name="Пользователь"
@@ -32,7 +33,7 @@ class Review(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(10)],
         verbose_name="Рейтинг"
     )
-    cretaed_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
     id_published = models.BooleanField(default=True,verbose_name="Опубликовано")
 

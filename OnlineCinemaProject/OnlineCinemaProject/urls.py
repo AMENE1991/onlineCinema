@@ -23,5 +23,5 @@ from CinemaApp.views import FilmListCreate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cinema/', FilmListCreate),
+    path('cinema/', FilmListCreate.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
