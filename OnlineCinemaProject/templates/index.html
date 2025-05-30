@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная - Online Cinema</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0 0 60px 0;
+            background-color: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1f1f1f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #fff;
+            padding: 15px 25px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        nav a:hover {
+            background-color: #a43fc1;
+            color: white;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                url('https://images.live.vkplay.ru/public_video_stream/record/a4c766b0-cfb2-4947-9e48-c1716b254d31/custom_preview?change_time=1722545580');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            border-radius: 10px;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .hero h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero button {
+            font-size: 1.2em;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .hero button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(164, 63, 193, 0.4);
+        }
+        .section {
+            background: #1f1f1f;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #a43fc1;
+            font-size: 1.8em;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .movie-list {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 15px 5px;
+            scrollbar-width: thin;
+            scrollbar-color: #a43fc1 #1f1f1f;
+        }
+        .movie-list::-webkit-scrollbar {
+            height: 8px;
+        }
+        .movie-list::-webkit-scrollbar-track {
+            background: #1f1f1f;
+            border-radius: 10px;
+        }
+        .movie-list::-webkit-scrollbar-thumb {
+            background: #a43fc1;
+            border-radius: 10px;
+        }
+        .movie {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 200px;
+            max-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+        }
+        .movie:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            border-color: #a43fc1;
+        }
+        .movie img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .movie h3 {
+            margin: 10px 0 5px;
+            font-size: 1.1em;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .movie p {
+            margin: 0 0 10px;
+            color: #ddd;
+            font-size: 0.9em;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 60px;
+        }
+        .watch-btn {
+            position: relative;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .watch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(164, 63, 193, 0.4);
+        }
+        footer {
+            background-color: #1f1f1f;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 1px solid #333;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .modal-content {
+            background-color: #1f1f1f;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideIn 0.3s;
+            border: 1px solid #333;
+        }
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #a43fc1;
+            text-decoration: none;
+            cursor: pointer;
+            transform: rotate(90deg);
+        }
+        #movieTitle {
+            color: #a43fc1;
+            margin-top: 0;
+            font-size: 2em;
+        }
+        #movieDescription {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        .movie-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .movie-info p {
+            margin: 5px 0;
+            color: #ddd;
+        }
+        .movie-info strong {
+            color: #a43fc1;
+        }
+        .highlight {
+            color: #a43fc1;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            nav {
+                flex-wrap: wrap;
+            }
+            nav a {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            .hero h2 {
+                font-size: 2em;
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .movie {
+                min-width: 160px;
+                max-width: 160px;
+            }
+            .movie img {
+                height: 220px;
+            }
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Online Cinema</h1>
+        <p>Лучшие фильмы и сериалы в одном месте</p>
+    </header>
+    <nav>
+        <a href="index.html" class="active">Главная</a>
+        <a href="subscriptions.html">Подписки</a>
+        <a href="movies.html">Фильмы</a>
+        <a href="series.html">Сериалы</a>
+        <a href="login.html">Регистрация</a>
+        <a href="parol.html">Вход</a>
+    </nav>
+    <div class="container">
+        <div class="hero">
+            <h2>Подпишитесь на наш сервис</h2>
+            <p>Получите доступ ко всем фильмам и сериалам без рекламы и в лучшем качестве!</p>
+            <a href="subscriptions.html"><button>Попробовать 7 дней бесплатно</button></a>
+        </div>
+        <div class="section">
+            <h2>Смотрят сейчас</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Малефисента', 'Юная волшебница Малефисента вела уединенную жизнь в зачарованном лесу, окруженная сказочными существами, но однажды все изменилось… В её мир вторглись люди, которые принесли с собой разрушение и хаос, и Малефисенте пришлось встать на защиту своих подданных, призвав на помощь могущественные тёмные силы.', 'Фэнтези, Семейный, Мелодрама, Приключения', '2014', '7.2', 'Русский')">
+                    <img src="https://images.bauerhosting.com/legacy/media/5cda/a234/f5fa/1e27/1516/ae86/maleficent-sequel-trailer.jpg" alt="Малефисента">
+                    <h3>Малефисента</h3>
+                    <p>Юная волшебница Малефисента вела уединенную жизнь в зачарованном лесу...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Малефисента')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Джон Уик 4', 'Джон Уик находит способ одержать победу над Правлением Кланов. Но прежде чем он сможет заслужить свою свободу, Уик должен сразиться с новым врагом, который обладает мощными международными альянсами и превращает друзей Джона во врагов.', 'Боевик, Криминал, Триллер', '2023', '7.7', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMDExZGMyOTMtMDgyYi00NGIwLWJhMTEtOTdkZGFjNmZiMTEwXkEyXkFqcGdeQXVyMjM4NTM5NDY@._V1_.jpg" alt="Джон Уик 4">
+                    <h3>Джон Уик 4</h3>
+                    <p>Джон Уик находит способ одержать победу над Правлением Кланов...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Джон Уик 4')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Оппенгеймер', 'История жизни Юлиуса Роберта Оппенгеймера, американского физика-теоретика, который руководил Манхэттенским проектом — программой по разработке ядерного оружия во время Второй мировой войны.', 'Биография, Драма, История', '2023', '8.5', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg" alt="Оппенгеймер">
+                    <h3>Оппенгеймер</h3>
+                    <p>История жизни Юлиуса Роберта Оппенгеймера, американского физика-теоретика...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Оппенгеймер')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Дюна', 'Наследник знатного дома Пол Атрейдес отправляется вместе с семьей на самую опасную планету во Вселенной, чтобы обеспечить будущее своего рода и своего народа.', 'Фантастика, Боевик, Драма', '2021', '8.0', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="Дюна">
+                    <h3>Дюна</h3>
+                    <p>Наследник знатного дома Пол Атрейдес отправляется вместе с семьей...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Дюна')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Рекомендуем сериалы</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Игра престолов', 'В вымышленном мире, напоминающем средневековую Европу, несколько знатных семей борются за контроль над мифической землёй Вестерос. Между тем древнее зло пробуждается на крайнем Севере.', 'Фэнтези, Драма, Приключения', '2011-2019', '9.2', 'Английский')">
+                    <img src="https://diskomir.ru/upload/iblock/328/328d4b52bf082326e46f23cdae9a783e.jpg" alt="Игра престолов">
+                    <h3>Игра престолов</h3>
+                    <p>В вымышленном мире, напоминающем средневековую Европу, несколько знатных семей борются за контроль...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Игра престолов')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Во все тяжкие', 'Уолтер Уайт — школьный учитель химии, у которого диагностировали неизлечимый рак лёгких. Чтобы обеспечить финансовое будущее своей семьи, он начинает производить и продавать метамфетамин.', 'Криминал, Драма, Триллер', '2008-2013', '9.5', 'Английский')">
+                    <img src="https://avatars.mds.yandex.net/i?id=5f74076d8896948e7a13ddf598175d1a_l-5222496-images-thumbs&n=13" alt="Во все тяжкие">
+                    <h3>Во все тяжкие</h3>
+                    <p>Уолтер Уайт — школьный учитель химии, у которого диагностировали неизлечимый рак лёгких...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Во все тяжкие')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Чернобыль', 'Драматическая реконструкция событий аварии на Чернобыльской АЭС в 1986 году, одной из самых страшных техногенных катастроф в истории, и последующих героических усилий по ликвидации её последствий.', 'Драма, История, Триллер', '2019', '9.3', 'Английский')">
+                    <img src="https://img.tv3.ru/2f/fc/44951.jpg" alt="Чернобыль">
+                    <h3>Чернобыль</h3>
+                    <p>Драматическая реконструкция событий аварии на Чернобыльской АЭС в 1986 году...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Чернобыль')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Ведьмак', 'Геральт из Ривии, мутант и охотник на чудовищ, путешествует по Континенту в поисках своего места в мире, где люди часто оказываются куда хуже монстров.', 'Фэнтези, Драма, Приключения', '2019-...', '8.2', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BN2FiOWU4YzYtMzZiOS00MzcyLTlkOGEtOTgwZmEwMzAxMzA3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="Ведьмак">
+                    <h3>Ведьмак</h3>
+                    <p>Геральт из Ривии, мутант и охотник на чудовищ, путешествует по Континенту...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Ведьмак')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Сейчас в эфире</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Интерстеллар', 'Когда засуха приводит человечество к продовольственному кризису, коллектив исследователей и учёных отправляется сквозь червоточину (которая предположительно соединяет области пространства-времени через большое расстояние) в путешествие, чтобы превзойти прежние ограничения для космических путешествий человека и переселить человечество на другую планету.', 'Фантастика, Драма, Приключения', '2014', '8.6', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Интерстеллар">
+                    <h3>Интерстеллар</h3>
+                    <p>Когда засуха приводит человечество к продовольственному кризису, коллектив исследователей...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Интерстеллар')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Зеленая миля', 'Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни. Пол повидал много заключённых и надзирателей за время работы. Однако гигант Джон Коффи, обвинённый в страшном преступлении, стал одним из самых необычных обитателей блока.', 'Фэнтези, Драма, Криминал', '1999', '9.1', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1_.jpg" alt="Зеленая миля">
+                    <h3>Зеленая миля</h3>
+                    <p>Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора»...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Зеленая миля')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Побег из Шоушенка', 'Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника. Оказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки. Каждый, кто попадает в эти стены, становится их рабом до конца жизни. Но Энди, обладающий живым умом и доброй душой, находит подход как к заключённым, так и к охранникам.', 'Драма', '1994', '9.3', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg" alt="Побег из Шоушенка">
+                    <h3>Побег из Шоушенка</h3>
+                    <p>Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Побег из Шоушенка')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Гладиатор', 'Римский генерал Максимус, верный императору Марку Аврелию, оказывается преданным его сыном Коммодом, который захватывает трон. Максимус попадает в рабство и становится гладиатором, стремясь отомстить Коммоду.', 'Боевик, Драма, Приключения', '2000', '8.5', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg" alt="Гладиатор">
+                    <h3>Гладиатор</h3>
+                    <p>Римский генерал Максимус, верный императору Марку Аврелию, оказывается преданным...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Гладиатор')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Рекомендуем фильмы</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Начало', 'Дом Кобб — талантливый вор, лучший из лучших в опасном искусстве извлечения: он крадет ценные секреты из глубин подсознания во время сна, когда человеческий разум наиболее уязвим. Редкие способности Кобба сделали его ценным игроком в привычном к предательству мире промышленного шпионажа, но они же превратили его в извечного беглеца и лишили всего, что он когда-либо любил.', 'Фантастика, Боевик, Триллер', '2010', '8.8', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg" alt="Начало">
+                    <h3>Начало</h3>
+                    <p>Дом Кобб — талантливый вор, лучший из лучших в опасном искусстве извлечения...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Начало')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Форрест Гамп', 'От лица главного героя Форреста Гампа, слабоумного безобидного человека с благородным и открытым сердцем, рассказывается история его необыкновенной жизни. Фантастическим образом превращается он в известного футболиста, героя войны, преуспевающего бизнесмена. Он становится миллиардером, но остается таким же бесхитростным, глупым и добрым. Форреста ждет постоянный успех во всем, а он любит девочку, с которой дружил в детстве, но взаимность приходит слишком поздно.', 'Драма, Мелодрама', '1994', '8.8', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_.jpg" alt="Форрест Гамп">
+                    <h3>Форрест Гамп</h3>
+                    <p>От лица главного героя Форреста Гампа, слабоумного безобидного человека...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Форрест Гамп')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Крестный отец', 'Криминальная сага, повествующая о нью-йоркской сицилийской мафиозной семье Корлеоне. Фильм охватывает период 1945-1955 годов. Глава семьи, Дон Вито Корлеоне, выдаёт замуж свою дочь. В это время его сын Майкл, герой войны, влюблённый в американку Кей Адамс, возвращается домой. Майкл, несмотря на неодобрение отца, решает пойти по его стопам.', 'Криминал, Драма', '1972', '9.2', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg" alt="Крестный отец">
+                    <h3>Крестный отец</h3>
+                    <p>Криминальная сага, повествующая о нью-йоркской сицилийской мафиозной семье Корлеоне...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Крестный отец')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Темный рыцарь', 'Бэтмен поднимает ставки в войне с криминалом. С помощью лейтенанта Джима Гордона и прокурора Харви Дента он намерен очистить улицы от преступности. Их сотрудничество оказывается эффективным, но вскоре они оказываются мишенью для Джокера — криминального гения, который хочет доказать, что даже самые благородные из нас могут пасть.', 'Боевик, Криминал, Драма', '2008', '9.0', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg" alt="Темный рыцарь">
+                    <h3>Темный рыцарь</h3>
+                    <p>Бэтмен поднимает ставки в войне с криминалом. С помощью лейтенанта Джима Гордона...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Темный рыцарь')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMovieDetails()">&times;</span>
+            <h2 id="movieTitle"></h2>
+            <p id="movieDescription"></p>
+            <div class="movie-info">
+                <p><strong>Жанр:</strong> <span id="movieGenre"></span></p>
+                <p><strong>Год:</strong> <span id="movieYear"></span></p>
+                <p><strong>Рейтинг:</strong> <span id="movieRating"></span></p>
+                <p><strong>Язык:</strong> <span id="movieLanguage"></span></p>
+            </div>
+            <button class="watch-btn" onclick="watchMovieFromModal()" style="width: auto; margin: 20px auto 0; display: block;">
+                <span>Смотреть сейчас</span>
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Online Cinema. Все права защищены.</p>
+    </footer>
+
+<script>
+        const movieLinks = {
+            'Малефисента': 'https://rutube.ru/video/fce2dab27c27bd37905c3651c9af237f/?r=wd',
+            'Джон Уик 4': 'https://rutube.ru/video/4938452b4b54c484f89eb65904d3281e/?r=plwd',
+            'Оппенгеймер': 'https://rutube.ru/video/b1ef29a224dbdc74562c41856e74bae9/?r=plwd',
+            'Дюна': 'https://rutube.ru/video/838e1ec7e6c79b1f8d9d9d23fd0c14f5/?r=plwd',
+            'Игра престолов': 'https://rutube.ru/video/62c846f674b1664afa45108a15ca871d/?r=plwd',
+            'Во все тяжкие': 'https://rutube.ru/video/c122b6d3f69a3e34ea22d0427dc40174/?r=plwd',
+            'Чернобыль': 'https://rutube.ru/video/b875d0833c876ae0812e07de4e0b8c2e/?r=plwd',
+            'Ведьмак': 'https://rutube.ru/video/874766363dd6ca9347402731ca904cc0/?r=plwd',
+            'Интерстеллар': 'https://rutube.ru/video/17465fc541700b94ebd5648423675100/?r=wd',
+            'Зеленая миля': 'https://rutube.ru/video/b5c4021d29fac53e548c6d0d92fb55d2/?r=wd',
+            'Побег из Шоушенка': 'https://rutube.ru/video/cae96c24f81419ccd444ed151a169985/?r=wd',
+            'Гладиатор': 'https://rutube.ru/video/4282c18411899128b37d1dda827bef97/?r=wd',
+            'Начало': 'https://rutube.ru/video/27c335dcbef386ff6adfd3fb392465c0/?r=wd',
+            'Форрест Гамп': 'https://rutube.ru/video/0110b8f621971fa81f83f79e3edcee67/?r=wd',
+            'Крестный отец': 'https://rutube.ru/video/6faea26e2d24b05041fcca9ff477f91d/?r=wd',
+            'Темный рыцарь': 'https://rutube.ru/video/74fb252e6f3a0e6eaedb0909dc6eaf29/?r=wd'
+        };
+        
+        let currentMovieTitle = '';
+
+        function showMovieDetails(title, description, genre, year, rating, language) {
+            currentMovieTitle = title;
+            document.getElementById('movieTitle').textContent = title;
+            document.getElementById('movieDescription').textContent = description;
+            document.getElementById('movieGenre').textContent = genre;
+            document.getElementById('movieYear').textContent = year;
+            document.getElementById('movieRating').textContent = rating;
+            document.getElementById('movieLanguage').textContent = language;
+            document.getElementById('movieModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMovieDetails() {
+            document.getElementById('movieModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function watchMovie(title) {
+            const url = movieLinks[title];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert("Сериал \"" + title + "\" временно недоступен. Пожалуйста, попробуйте позже.");
+            }
+        }
+        
+        function watchMovieFromModal() {
+            watchMovie(currentMovieTitle);
+            closeMovieDetails();
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById('movieModal');
+            if (event.target == modal) {
+                closeMovieDetails();
+            }
+        }
+        
+        document.onkeydown = function(evt) {
+            evt = evt || window.event;
+            if (evt.key === "Escape") {
+                closeMovieDetails();
+            }
+        };
+    </script>
+</body>
+</html>

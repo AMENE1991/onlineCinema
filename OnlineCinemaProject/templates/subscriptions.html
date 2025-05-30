@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подписки - Online Cinema</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0 0 60px 0; 
+            background-color: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1f1f1f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #fff;
+            padding: 15px 25px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        nav a:hover {
+            background-color: #a43fc1;
+            color: white;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+        .subscription-plan {
+            background: #1f1f1f;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+        .subscription-plan:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .subscription-plan h2 {
+            color: #a43fc1;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        .subscription-plan p {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            color: #ddd;
+        }
+        .subscription-plan button {
+            font-size: 1.1em;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .subscription-plan button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(164, 63, 193, 0.4);
+        }
+        footer {
+            background-color: #1f1f1f;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 1px solid #333;
+        }
+        .highlight {
+            color: #a43fc1;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Подписки Online Cinema</h1>
+        <p>Выберите подходящий тарифный план</p>
+    </header>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="subscriptions.html" class="active">Подписки</a>
+        <a href="movies.html">Фильмы</a>
+        <a href="series.html">Сериалы</a>
+        <a href="login.html">Регистрация</a>
+        <a href="parol.html">Вход</a>
+    </nav>
+    <div class="container">
+        <div class="subscription-plan">
+            <h2>Базовый</h2>
+            <p><span class="highlight">7 дней бесплатно</span>, далее <span class="highlight">399 ₽</span> в месяц</p>
+            <ul style="text-align: left; margin-bottom: 25px; padding-left: 20px;">
+                <li>Доступ к базовой коллекции</li>
+                <li>Просмотр на 1 устройстве</li>
+                <li>Качество до 1080p</li>
+            </ul>
+             <a href="login.html"><button>Попробовать бесплатно</button></a>
+        </div>
+        <div class="subscription-plan" style="border: 1px solid #a43fc1;">
+            <h2>Стандартный</h2>
+            <p><span class="highlight">7 дней бесплатно</span>, далее <span class="highlight">799 ₽</span> в месяц</p>
+            <ul style="text-align: left; margin-bottom: 25px; padding-left: 20px;">
+                <li>Доступ к расширенной коллекции</li>
+                <li>Просмотр на 2 устройствах</li>
+                <li>Качество до 4K</li>
+                <li>Доступ к новинкам</li>
+            </ul>
+            <a href="login.html"><button>Попробовать бесплатно</button></a>
+        </div>
+        <div class="subscription-plan">
+            <h2>Премиум</h2>
+            <p><span class="highlight">7 дней бесплатно</span>, далее <span class="highlight">3 490 ₽</span> в год</p>
+            <p style="font-size: 0.9em; color: #aaa;">(Экономия 30% по сравнению с месячной подпиской)</p>
+            <ul style="text-align: left; margin-bottom: 25px; padding-left: 20px;">
+                <li>Полный доступ ко всей коллекции</li>
+                <li>Просмотр на 4 устройствах</li>
+                <li>Качество до 4K HDR</li>
+                <li>Ранний доступ к новинкам</li>
+                <li>Эксклюзивный контент</li>
+            </ul>
+            <a href="login.html"><button>Попробовать бесплатно</button></a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Online Cinema. Все права защищены.</p>
+    </footer>
+</body>
+</html>

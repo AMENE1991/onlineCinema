@@ -58,7 +58,7 @@ ROOT_URLCONF = 'OnlineCinemaProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +76,11 @@ WSGI_APPLICATION = 'OnlineCinemaProject.wsgi.application'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR/"static",
+    ]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
