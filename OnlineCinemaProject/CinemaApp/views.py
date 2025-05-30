@@ -8,17 +8,14 @@ class FilmListCreate(ListCreateAPIView):
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
 
-class FilmDetailView(RetrieveAPIView):
-    queryset = Film.objects.all()
-    serializer_class = FilmSerializer
-
-
-
-
 class ReviewListCreate(ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-class 
 
-# Create your views here.
+def movies(request):
+    movies = Film.objects.all()
+    data = {
+        "movies": movies
+    }
+    return render(request, "movies.html", context=data)
