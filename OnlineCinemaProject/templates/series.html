@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сериалы - Online Cinema</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0 0 60px 0;
+            background-color: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+       header {
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #1f1f1f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: #fff;
+            padding: 15px 25px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        nav a:hover {
+            background-color: #a43fc1;
+            color: white;
+        }
+        .active {
+            background-color: #6e48aa;
+            font-weight: bold;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.live.vkplay.ru/public_video_stream/record/a4c766b0-cfb2-4947-9e48-c1716b254d31/custom_preview?change_time=1722545580');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            border-radius: 10px;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .hero h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero button {
+            font-size: 1.2em;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .hero button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(164, 63, 193, 0.4);
+        }
+        .section {
+            background: #1f1f1f;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #a43fc1;
+            font-size: 1.8em;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .movie-list {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 15px 5px;
+            scrollbar-width: thin;
+            scrollbar-color: #a43fc1 #1f1f1f;
+        }
+        .movie-list::-webkit-scrollbar {
+            height: 8px;
+        }
+        .movie-list::-webkit-scrollbar-track {
+            background: #1f1f1f;
+            border-radius: 10px;
+        }
+        .movie-list::-webkit-scrollbar-thumb {
+            background: #a43fc1;
+            border-radius: 10px;
+        }
+        .movie {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 200px;
+            max-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+        }
+        .movie:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            border-color: #a43fc1;
+        }
+        .movie img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .movie h3 {
+            margin: 10px 0 5px;
+            font-size: 1.1em;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .movie p {
+            margin: 0 0 10px;
+            color: #ddd;
+            font-size: 0.9em;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 60px;
+        }
+        .watch-btn {
+            position: relative;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #6e48aa 0%, #a43fc1 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .watch-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(164, 63, 193, 0.4);
+        }
+        footer {
+            background-color: #1f1f1f;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            border-top: 1px solid #333;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .modal-content {
+            background-color: #1f1f1f;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideIn 0.3s;
+            border: 1px solid #333;
+        }
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #a43fc1;
+            text-decoration: none;
+            cursor: pointer;
+            transform: rotate(90deg);
+        }
+        #movieTitle {
+            color: #a43fc1;
+            margin-top: 0;
+            font-size: 2em;
+        }
+        #movieDescription {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #ddd;
+        }
+        .movie-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .movie-info p {
+            margin: 5px 0;
+            color: #ddd;
+        }
+        .movie-info strong {
+            color: #a43fc1;
+        }
+        .highlight {
+            color: #a43fc1;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            nav {
+                flex-wrap: wrap;
+            }
+            nav a {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            .hero h2 {
+                font-size: 2em;
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .movie {
+                min-width: 160px;
+                max-width: 160px;
+            }
+            .movie img {
+                height: 220px;
+            }
+            .modal-content {
+                width: 90%;
+                padding: 20px;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Online Cinema</h1>
+        <p>Лучшие сериалы в одном месте</p>
+    </header>
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="subscriptions.html">Подписки</a>
+        <a href="movies.html">Фильмы</a>
+        <a href="series.html" class="active">Сериалы</a>
+        <a href="login.html">Регистрация</a>
+        <a href="parol.html">Вход</a>
+    </nav>
+    <div class="container">
+        <div class="hero">
+            <h2>Более 5000 сериалов в коллекции</h2>
+            <p>Открывайте для себя новые шедевры и пересматривайте классику в отличном качестве</p>
+            <a href="subscriptions.html"><button>Попробовать 7 дней бесплатно</button></a>
+        </div>
+        
+      
+        
+        <div class="section">
+            <h2>Популярные сериалы</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Друзья', 'Шесть друзей переживают взлёты и падения жизни в Нью-Йорке.', 'Комедия, Романтика', '1994-2004', '8.9', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNDVkYjU0MzctMWRmZi00NTkxLTgwZWEtOWVhYjZlYjllYmU4XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg" alt="Друзья">
+                    <h3>Друзья</h3>
+                    <p>Шесть друзей переживают взлёты и падения жизни в Нью-Йорке...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Друзья')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Шерлок', 'Современная адаптация приключений легендарного детектива Шерлока Холмса.', 'Детектив, Криминал, Драма', '2010-2017', '9.1', 'Английский')">
+                    <img src="https://i.pinimg.com/736x/de/7f/ca/de7fca8d2846ff1599f854c483497994.jpg" alt="Шерлок">
+                    <h3>Шерлок</h3>
+                    <p>Современная адаптация приключений легендарного детектива...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Шерлок')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Теория большого взрыва', 'Четыре учёных-гика и их привлекательная соседка.', 'Комедия, Романтика', '2007-2019', '8.1', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BY2FmZTY5YTktOWRlYy00NmIyLWE0ZmQtZDg2YjlmMzczZDZiXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_.jpg" alt="Теория большого взрыва">
+                    <h3>Теория большого взрыва</h3>
+                    <p>Четыре учёных-гика и их привлекательная соседка...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Теория большого взрыва')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Рик и Морти', 'Безумный учёный и его внук путешествуют по параллельным вселенным.', 'Мультфильм, Комедия, Фантастика', '2013-', '9.1', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BZjRjOTFkOTktZWUzMi00YzMyLThkMmYtMjEwNmQyNzliYTNmXkEyXkFqcGdeQXVyNzQ1ODk3MTQ@._V1_.jpg" alt="Рик и Морти">
+                    <h3>Рик и Морти</h3>
+                    <p>Безумный учёный и его внук путешествуют по параллельным вселенным...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Рик и Морти')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Очень странные дела', 'Дети сталкиваются со сверхъестественными силами в маленьком городке.', 'Фантастика, Ужасы, Драма', '2016-', '8.7', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMDZkYmVhNjMtNWU4MC00MDQxLWE3MjYtZGMzZWI1ZjhlOWJmXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="Очень странные дела">
+                    <h3>Очень странные дела</h3>
+                    <p>Дети сталкиваются со сверхъестественными силами в маленьком городке...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Очень странные дела')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Фантастика и фэнтези</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Чужой мир', 'Человечество колонизировало Марс, но обнаружило там древние тайны.', 'Фантастика, Драма', '2023-', '8.5', 'Английский')">
+                    <img src="https://images.iptv.rt.ru/images/c6u72qjir4ssllttnfb0.jpg" alt="Чужой мир">
+                    <h3>Чужой мир</h3>
+                    <p>Человечество колонизировало Марс, но обнаружило там древние тайны...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Чужой мир')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Пацаны', 'Супергерои стали коррумпированными, и группа простых людей решает их остановить.', 'Фантастика, Комедия, Криминал', '2019-', '8.7', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNGEyOGJiNWEtMTgwMi00ODU4LTlkMjItZWI4NjFmMzgxZGY2XkEyXkFqcGdeQXVyNjcyNjcyMzQ@._V1_.jpg" alt="Пацаны">
+                    <h3>Пацаны</h3>
+                    <p>Супергерои стали коррумпированными, и группа простых людей решает их остановить...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Пацаны')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Звёздный путь: Дискавери', 'Экипаж корабля Дискавери исследует галактику в XXIII веке.', 'Фантастика, Приключения', '2017-', '7.0', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNjg1NTc2MDktZTU5Ni00OTZiLWIyNjQtN2FhNGY4MzAxNmZkXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="Звёздный путь: Дискавери">
+                    <h3>Звёздный путь: Дискавери</h3>
+                    <p>Экипаж корабля Дискавери исследует галактику в XXIII веке...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Звёздный путь: Дискавери')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Властелин колец: Кольца власти', 'События Второй Эпохи Средиземья за тысячи лет до "Властелина колец".', 'Фэнтези, Приключения', '2022-', '7.0', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNmVmZGQ2ZTctYzE4NC00YzkxLThhNjYtNGIyZjJmZGEwMjUzXkEyXkFqcGc@._V1_.jpg" alt="Властелин колец: Кольца власти">
+                    <h3>Властелин колец: Кольца власти</h3>
+                    <p>События Второй Эпохи Средиземья за тысячи лет до "Властелина колец"...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Властелин колец: Кольца власти')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Колесо времени', 'Моэрайн и её Пять послушников отправляются на поиски Избранного.', 'Фэнтези, Драма', '2021-', '7.1', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BYzA2Nzk5M2EtNWY4Yi00ZDY4LThkZTgtYjhhNWEyMGY0MjFjXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="Колесо времени">
+                    <h3>Колесо времени</h3>
+                    <p>Моэрайн и её Пять послушников отправляются на поиски Избранного...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Колесо времени')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Драмы и криминал</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Нарко', 'История наркобарона Пабло Эскобара и агента DEA, который его преследовал.', 'Криминал, Драма', '2015-2017', '8.8', 'Испанский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNmFjODU3YzgtMGUwNC00ZGI3LWFkZjQtMjkxZDc3NmQ1MzcyXkEyXkFqcGdeQXVyNjUwNzk3NDc@._V1_.jpg" alt="Нарко">
+                    <h3>Нарко</h3>
+                    <p>История наркобарона Пабло Эскобара и агента DEA...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Нарко')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Озарк', 'Семья финансового советника вынуждена переехать в Озарк, чтобы отмывать деньги.', 'Криминал, Драма, Триллер', '2017-2022', '8.4', 'Английский')">
+                    <img src="http://avatars.mds.yandex.net/get-vthumb/916043/3d7d481961f2ae1f57a7c77e77117fc1/800x450" alt="Озарк">
+                    <h3>Озарк</h3>
+                    <p>Семья финансового советника вынуждена переехать в Озарк...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Озарк')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Корона', 'История правления королевы Елизаветы II и королевской семьи.', 'Драма, История', '2016-2023', '8.6', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BZTEyNjBjYmYtYWYxYi00MmQyLThlYmItY2I4NzM1Mjg1MWYxXkEyXkFqcGdeQXVyMTU3ODI3MTk2._V1_.jpg" alt="Корона">
+                    <h3>Корона</h3>
+                    <p>История правления королевы Елизаветы II и королевской семьи...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Корона')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Настоящий детектив', 'Расследование ритуального убийства в Луизиане растянулось на 17 лет.', 'Криминал, Драма, Детектив', '2014-', '8.9', 'Английский')">
+                    <img src="https://avatars.mds.yandex.net/get-kinopoisk-image/1600647/d58b2cc8-541c-46e5-8cc5-4070eb318398/1920x" alt="Настоящий детектив">
+                    <h3>Настоящий детектив</h3>
+                    <p>Расследование ритуального убийства в Луизиане растянулось на 17 лет...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Настоящий детектив')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Карточный домик', 'Циничный политик строит коварные планы, чтобы достичь власти.', 'Драма, Политика', '2013-2018', '8.7', 'Английский')">
+                    <img src="https://www.kino-teatr.ru/news/13388/127078.jpg" alt="Карточный домик">
+                    <h3>Карточный домик</h3>
+                    <p>Циничный политик строит коварные планы, чтобы достичь власти...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Карточный домик')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Комедии</h2>
+            <div class="movie-list">
+                <div class="movie" onclick="showMovieDetails('Офис', 'Повседневная жизнь сотрудников вымышленной бумажной компании Dunder Mifflin.', 'Комедия', '2005-2013', '8.9', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMDNkOTE4NDQtMTNmYi00MWE0LWE4ZTktYTc0NzhhNWIzNzJiXkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg" alt="Офис">
+                    <h3>Офис</h3>
+                    <p>Повседневная жизнь сотрудников вымышленной бумажной компании...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Офис')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Бруклин 9-9', 'Комедия о работе полицейского участка в Бруклине.', 'Комедия, Криминал', '2013-2021', '8.4', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNzVkYWY4NzYtMWFlZi00YzkwLThhZDItZjcxYTU4ZTMzMDZmXkEyXkFqcGdeQXVyODUxOTU0OTg@._V1_.jpg" alt="Бруклин 9-9">
+                    <h3>Бруклин 9-9</h3>
+                    <p>Комедия о работе полицейского участка в Бруклине...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Бруклин 9-9')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Как я встретил вашу маму', 'История Теда, который рассказывает детям о том, как встретил их маму.', 'Комедия, Романтика', '2005-2014', '8.3', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BNjg1MDQ5MjQ2N15BMl5BanBnXkFtZTYwNjI5NjA3._V1_FMjpg_UX1000_.jpg" alt="Как я встретил вашу маму">
+                    <h3>Как я встретил вашу маму</h3>
+                    <p>История Теда, который рассказывает детям о том, как встретил их маму...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Как я встретил вашу маму')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Симпсоны', 'Жизнь и приключения семейки Симпсонов в вымышленном городе Спрингфилд.', 'Мультфильм, Комедия', '1989-', '8.6', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BYjFkMTlkYWUtZWFhNy00M2FmLThiOTYtYTRiYjVlZWYxNmJkXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg" alt="Симпсоны">
+                    <h3>Симпсоны</h3>
+                    <p>Жизнь и приключения семейки Симпсонов в вымышленном городе...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Симпсоны')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+                <div class="movie" onclick="showMovieDetails('Кремниевая долина', 'Группа гиков пытается создать успешный стартап в Кремниевой долине.', 'Комедия', '2014-2019', '8.5', 'Английский')">
+                    <img src="https://m.media-amazon.com/images/M/MV5BM2Q5YjNjZWMtYThmYy00N2ZjLWE2NDctNmZjMmZjYWE2NjEwXkEyXkFqcGdeQXVyMTAzMDM4MjM0._V1_.jpg" alt="Кремниевая долина">
+                    <h3>Кремниевая долина</h3>
+                    <p>Группа гиков пытается создать успешный стартап в Кремниевой долине...</p>
+                    <button class="watch-btn" onclick="event.stopPropagation(); watchMovie('Кремниевая долина')">
+                        <span>Смотреть</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для информации о сериале -->
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMovieDetails()">&times;</span>
+            <h2 id="movieTitle"></h2>
+            <p id="movieDescription"></p>
+            <div class="movie-info">
+                <p><strong>Жанр:</strong> <span id="movieGenre"></span></p>
+                <p><strong>Год:</strong> <span id="movieYear"></span></p>
+                <p><strong>Рейтинг:</strong> <span id="movieRating"></span></p>
+                <p><strong>Язык:</strong> <span id="movieLanguage"></span></p>
+            </div>
+            <button class="watch-btn" onclick="watchMovieFromModal()" style="width: auto; margin: 20px auto 0; display: block;">
+                <span>Смотреть сейчас</span>
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Online Cinema. Все права защищены.</p>
+    </footer>
+
+    <script>
+        const movieLinks = {
+            'Друзья': 'https://rutube.ru/video/63828d05bb8ee5f290cf315b6a476eb4/?r=plwd',
+            'Шерлок': 'https://rutube.ru/video/2e447b6e241d9d36b7ec15074be9ac84/?r=plwd',
+            'Теория большого взрыва': 'https://rutube.ru/video/73ddf04762eefdf054adbbb630498cbe/?r=plwd',
+            'Рик и Морти': 'https://rutube.ru/video/2b0f02129120213ed95e3a94ff7cf7fb/?r=plwd',
+            'Очень странные дела': 'https://rutube.ru/video/7c67f17f2e8749d7c1bc0fe32ad133a3/?r=plwd',
+            'Чужой мир': 'https://rutube.ru/video/8d15be585c12886cf9f2a13131b7cbfb/?r=plwd',
+            'Пацаны': 'https://rutube.ru/video/fed18ac22350f28a37fb246151bcda1b/?r=plwd',
+            'Звёздный путь: Дискавери': 'https://rutube.ru/video/12fc6616bcb32beedadee9fb507f792a/?r=plwd',
+            'Властелин колец: Кольца власти': 'https://rutube.ru/video/5cda011c1e43c184005f7deabe7abef7/?r=plwd',
+            'Колесо времени': 'https://rutube.ru/video/3c45176aa3a86d711787d102c344c74f/?r=plwd',
+            'Нарко': 'https://rutube.ru/video/47f40eb3aa214096d5ce445e26f7a268/?r=plwd',
+            'Озарк': 'https://rutube.ru/video/eab8211382a80e5d1e8801e28a570e72/?r=plwd',
+            'Корона': 'https://rutube.ru/video/960d60f7347cdbf577a1d3a046fb78ce/?r=plwd',
+            'Настоящий детектив': 'https://rutube.ru/video/a05691ee729f6d449876e153caab21b8/?r=plwd',
+            'Карточный домик': 'https://rutube.ru/video/d40a652038e30de4a781c7dbc8b498f9/?r=plwd',
+            'Офис': 'https://rutube.ru/video/bd5381d57eea24963dd12f57cdd28dbb/?r=plwd',
+            'Бруклин 9-9': 'https://rutube.ru/video/56e7256bd30b42c2ac61ba9fad95a63d/?r=plwd',
+            'Как я встретил вашу маму': 'https://rutube.ru/video/36c99952e6ff65d847ac475d4be72658/?r=plwd',
+            'Симпсоны': 'https://rutube.ru/video/7ab6b443ea4c026419696f59932ca2b2/?r=plwd',
+            'Кремниевая долина': 'https://rutube.ru/video/485e9abdbcdc5a41bc6d054bfe505395/?r=plwd'
+        };
+        
+        let currentMovieTitle = '';
+
+        function showMovieDetails(title, description, genre, year, rating, language) {
+            currentMovieTitle = title;
+            document.getElementById('movieTitle').textContent = title;
+            document.getElementById('movieDescription').textContent = description;
+            document.getElementById('movieGenre').textContent = genre;
+            document.getElementById('movieYear').textContent = year;
+            document.getElementById('movieRating').textContent = rating;
+            document.getElementById('movieLanguage').textContent = language;
+            document.getElementById('movieModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMovieDetails() {
+            document.getElementById('movieModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function watchMovie(title) {
+            const url = movieLinks[title];
+            if (url) {
+                window.open(url, '_blank');
+            } else {
+                alert("Сериал \"" + title + "\" временно недоступен. Пожалуйста, попробуйте позже.");
+            }
+        }
+        
+        function watchMovieFromModal() {
+            watchMovie(currentMovieTitle);
+            closeMovieDetails();
+        }
+
+        // Закрытие модального окна при клике вне его
+        window.onclick = function(event) {
+            const modal = document.getElementById('movieModal');
+            if (event.target == modal) {
+                closeMovieDetails();
+            }
+        }
+        
+        // Закрытие модального окна при нажатии Escape
+        document.onkeydown = function(evt) {
+            evt = evt || window.event;
+            if (evt.key === "Escape") {
+                closeMovieDetails();
+            }
+        };
+    </script>
+</body>
+</html>
